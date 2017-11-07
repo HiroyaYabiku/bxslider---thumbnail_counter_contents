@@ -1,0 +1,172 @@
+<!doctype html>
+
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+
+  <title>bxslider - サムネイル、カウント、コンテンツ</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="The HTML5 Herald">
+  <meta name="author" content="SitePoint">
+
+  <link rel="stylesheet" href="css/styles.css">
+  <link rel="stylesheet" href="css/jquery.bxslider.css">
+
+  <!--[if lt IE 9]>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv.js"></script>
+  <![endif]-->
+
+<style media="screen">
+
+.sliderWrap {
+  position: relative;
+  max-width: 650px;
+  margin: 0 auto;
+}
+.slider li {
+  position: relative;
+  width: 160px;
+}
+.bx-wrapper .bx-prev,
+.bx-wrapper .bx-next {
+  color: #fff;
+}
+
+/* スライダーのコンテンツ表示
+------------------------------- */
+.slider__contents {
+  position: absolute;
+  top: 250px;
+  right: -265px;
+  padding: 10px;
+  background: rgba(0,0,0,0.5);
+  color: #fff;
+}
+.bx-viewport {
+  overflow: visible !important;
+}
+
+/* サムネイル
+------------------------------- */
+.slider-thumbList {
+  display: -webkit-flex;
+  display: flex;
+  position: absolute;
+  top: 50px;
+  right: 0;
+  max-width: 300px;
+  justify-content: space-between;
+}
+.slider-thumbList li {
+  width: 90px;
+  margin-left: 10px;
+}
+.slider-thumbList li a {
+  display: block;
+  position: relative;
+}
+.slider-thumbList li a::after {
+  position: absolute;
+  z-index: 1;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0,0,0,0.5);
+  content: "";
+}
+.slider-thumbList li a.active::after {
+  background: none;
+}
+.slider-thumbList li img {
+  width: 100%;
+}
+
+/* カウンター
+------------------------------- */
+#slide-counter {
+  position: absolute;
+  top: 400px;
+  right: 0;
+  color: #999;
+}
+#slide-counter span {
+  color: #000;
+}
+</style>
+</head>
+
+
+
+<body>
+
+
+  <div class="sliderWrap">
+
+    <!-- スライダー -->
+    <ul class="slider">
+      <li>
+        <img src="img/01.jpg">
+        <div class="slider__contents">
+          Contents1
+        </div>
+      </li>
+      <li>
+        <img src="img/02.jpg">
+        <div class="slider__contents">
+          Contents2
+        </div>
+      </li>
+      <li>
+        <img src="img/03.jpg">
+        <div class="slider__contents">
+          Contents3
+        </div>
+      </li>
+    </ul>
+
+    <!-- サムネイル -->
+    <div id="bx-pager" class="thumb">
+      <ul class="slider-thumbList">
+        <li><a data-slide-index="0" href=""><img src="img/01.jpg"></a></li>
+        <li><a data-slide-index="1" href=""><img src="img/02.jpg"></a></li>
+        <li><a data-slide-index="2" href=""><img src="img/03.jpg"></a></li>
+      </ul>
+    </div>
+
+  </div><!-- sliderWrap -->
+
+
+  <script type="text/javascript" src="js/jquery-3.1.1.min.js"></script>
+  <script type="text/javascript" src="js/jquery.bxslider.js"></script>
+<script type="text/javascript">
+
+$(document).ready(function(){
+
+    $(function() {
+      $('.slider').after('<div id="slide-counter"><span></span> / </div>');
+      var slider = $('.slider').bxSlider({
+        auto: true,
+        mode: 'fade',
+        pause: 7000,
+        slideWidth: 300, //スライド内の1要素の幅
+        slideMargin: 15, //スライド間の余白
+        maxSlides: 3, //一度に表示させる数
+      	minSlides: 3, //最低限表示させる数
+      	moveSlides:1, //スライドで動かす数
+        pagerCustom: '#bx-pager',
+        // prevText: '<', //前へのテキスト
+        // nextText: '>' //次へのテキスト
+        onSliderLoad: function(currentIndex) {
+          $('#slide-counter span').text(currentIndex + 1);
+        },
+        onSlideBefore: function($slideElement, oldIndex, newIndex) {
+          $('#slide-counter span').text(newIndex + 1);
+        }
+      });
+      $('#slide-counter').append(slider.getSlideCount());
+    });
+});
+</script>
+</body>
+</html>
